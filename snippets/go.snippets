@@ -261,3 +261,9 @@ snippet errwr "Error handling with errors.Wrap"
 	if ${1}err != nil {
 		return errors.Wrap(err, "${2}")
 	}
+
+snippet jp "json Marshal and print"
+	func (){
+		jb, err := json.MarshalIndent(${1}, "", "  ")
+		fmt.Printf("error: %s, json:\n%s\n", err, string(jb))
+	}()
