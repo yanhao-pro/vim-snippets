@@ -264,7 +264,21 @@ snippet errwr "Error handling with errors.Wrap"
 
 snippet jp "json Marshal and print"
 	func (name string){
+		// DEBUG: remove before commit
 		jb, _ := json.MarshalIndent(${1}, "", "  ")
 		fmt.Printf("\n[%s]\n%s\n\n", name, string(jb))
 		_ = ioutil.WriteFile(name + ".json", jb, 0644)
 	}("${2}")
+
+snippet jlf "json load from file"
+	func (){
+		doc, err := ioutil.ReadFile("${1}")
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = json.Unmarshal(doc, ${2})
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
