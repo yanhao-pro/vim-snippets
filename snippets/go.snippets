@@ -263,7 +263,8 @@ snippet errwr "Error handling with errors.Wrap"
 	}
 
 snippet jp "json Marshal and print"
-	func (){
-		jb, err := json.MarshalIndent(${1}, "", "  ")
-		fmt.Printf("error: %s, json:\n%s\n", err, string(jb))
-	}()
+	func (name string){
+		jb, _ := json.MarshalIndent(${1}, "", "  ")
+		fmt.Printf("\n[%s]\n%s\n\n", name, string(jb))
+		_ = ioutil.WriteFile(name + ".json", jb, 0644)
+	}("${2}")
