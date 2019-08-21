@@ -720,3 +720,11 @@ snippet agg
 	aggregate_failures '${1:message}' do
 		${0}
 	end
+###
+snippet pfl
+	puts ">>>>>> #{__FILE__}:#{__LINE__} #{${1}}"
+snippet rli
+	Rails.logger.info ">>>>>> #{__FILE__}:#{__LINE__} #{${1}}"
+snippet cjn
+	caller.join("\n")
+
