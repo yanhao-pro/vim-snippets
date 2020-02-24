@@ -282,3 +282,19 @@ snippet jlf "json load from file"
 			log.Fatal(err)
 		}
 	}()
+
+snippet dumpro "dump http request"
+	dump, err := httputil.DumpRequestOut(req, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%q", dump)
+
+snippet dumprs "dump http response"
+	dump, err = httputil.DumpResponse(res, true)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%q", dump)
