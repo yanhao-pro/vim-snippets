@@ -87,6 +87,11 @@ snippet ir "if error not nil, return err"
 	}
 	${0}
 
+snippet ir "if error not nil, return fmt.Errorf"
+	if err != nil {
+		return fmt.Errorf("${0}: %w", err)
+	}
+
 snippet f "false"
 	false
 
@@ -270,7 +275,7 @@ snippet jp "json Marshal and print"
 		_ = ioutil.WriteFile(name + ".json", jb, 0644)
 	}("${2}")
 
-snippet jlf "json load from file"
+snippet jsonLoad "json load from file"
 	func (){
 		doc, err := ioutil.ReadFile("${1}")
 		if err != nil {
@@ -283,7 +288,7 @@ snippet jlf "json load from file"
 		}
 	}()
 
-snippet dumpro "dump http request"
+snippet httpDumpRequest "dump http request"
 	dump, err := httputil.DumpRequestOut(req, true)
 	if err != nil {
 		log.Fatal(err)
@@ -291,10 +296,111 @@ snippet dumpro "dump http request"
 
 	fmt.Printf("%q", dump)
 
-snippet dumprs "dump http response"
+snippet httpDumpResponse "dump http response"
 	dump, err = httputil.DumpResponse(res, true)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Printf("%q", dump)
+
+snippet flags "basic flags"
+	var output string
+	var option converter.Option
+
+	flag.StringVar(&output, "output", "", "the path of the output file")
+	flag.IntVar(&option.MinUsers, "min-users", 0, "minimal number of participants")
+
+	flag.Parse()
+
+	if output == "" {
+		flag.PrintDefaults()
+		return
+	}
+
+snippet createFile "basic flags"
+	f, err := os.Create("/tmp/dat2")
+	if err != nil {
+		log.Fatalf("Failed to create file: %s", err)
+	}
+
+	defer f.Close()
+
+	d2 := []byte{115, 111, 109, 101, 10}
+	_, err = f.Write(d2)
+	if err != nil {
+		log.Fatalf("Failed to write file: %s", err)
+	}
+
+snippet testify "import testify"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+snippet httpClient "basic http client"
+  var netClient = &http.Client{
+    Timeout: time.Second * 10,
+  }
+
+  response, _ := netClient.Get(url)
+
+snippet httpClientTrans "basic http client"
+  var netTransport = &http.Transport{
+    Dial: (&net.Dialer{
+      Timeout: 5 * time.Second,
+    }).Dial,
+    TLSHandshakeTimeout: 5 * time.Second,
+  }
+
+  var netClient = &http.Client{
+    Timeout: time.Second * 10,
+    Transport: netTransport,
+  }
+
+  response, _ := netClient.Get(url)
+
+snippet testSkip "skip the test"
+	fooAddr := os.Getenv("FOO_ADDR")
+	if fooAddr == "" {
+		t.Skip("set FOO_ADDR to run this test")
+	}
+
+snippet ctxDone "select ctx.Done()"
+  select {
+  case <-ctx.Done():
+    return ctx.Err()
+  case out <- v:
+	default:
+    // non-blocking
+  }
+
+snippet respondWithJSON "respondWithJSON"
+  func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) error {
+      response, err := json.Marshal(payload)
+      if err != nil {
+          return err
+      }
+      w.Header().Set("Content-Type", "application/json")
+      w.Header().Set("Access-Control-Allow-Origin", "*")
+      w.WriteHeader(code)
+      w.Write(response)
+      return nil
+  }
+
+snippet handleJSONRequest "handle JSON request"
+  func handler(w http.ResponseWriter, r *http.Request) {
+      defer r.Body.Close()
+
+      dat, err := io.ReadAll(r.Body)
+      if err != nil {
+          respondWithError(w, 500, "couldn't read request")
+          return
+      }
+      params := requestBody{}
+      err = json.Unmarshal(dat, &params)
+      if err != nil {
+          respondWithError(w, 500, "couldn't unmarshal parameters")
+          return
+      }
+  }
+
+
