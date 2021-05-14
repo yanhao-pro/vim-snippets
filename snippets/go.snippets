@@ -337,26 +337,26 @@ snippet testify "import testify"
 	"github.com/stretchr/testify/require"
 
 snippet httpClient "basic http client"
-  var netClient = &http.Client{
-    Timeout: time.Second * 10,
-  }
+	var netClient = &http.Client{
+		Timeout: time.Second * 10,
+	}
 
-  response, _ := netClient.Get(url)
+	response, _ := netClient.Get(url)
 
 snippet httpClientTrans "basic http client"
-  var netTransport = &http.Transport{
-    Dial: (&net.Dialer{
-      Timeout: 5 * time.Second,
-    }).Dial,
-    TLSHandshakeTimeout: 5 * time.Second,
-  }
+	var netTransport = &http.Transport{
+		Dial: (&net.Dialer{
+			Timeout: 5 * time.Second,
+		}).Dial,
+		TLSHandshakeTimeout: 5 * time.Second,
+	}
 
-  var netClient = &http.Client{
-    Timeout: time.Second * 10,
-    Transport: netTransport,
-  }
+	var netClient = &http.Client{
+		Timeout: time.Second * 10,
+		Transport: netTransport,
+	}
 
-  response, _ := netClient.Get(url)
+	response, _ := netClient.Get(url)
 
 snippet testSkip "skip the test"
 	fooAddr := os.Getenv("FOO_ADDR")
@@ -365,62 +365,61 @@ snippet testSkip "skip the test"
 	}
 
 snippet ctxDone "select ctx.Done()"
-  select {
-  case <-ctx.Done():
-    return ctx.Err()
-  case out <- v:
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case out <- v:
 	default:
-    // non-blocking
-  }
+		// non-blocking
+	}
 
 snippet respondWithJSON "respondWithJSON"
-  func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) error {
-      response, err := json.Marshal(payload)
-      if err != nil {
-          return err
-      }
-      w.Header().Set("Content-Type", "application/json")
-      w.Header().Set("Access-Control-Allow-Origin", "*")
-      w.WriteHeader(code)
-      w.Write(response)
-      return nil
-  }
+	func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) error {
+			response, err := json.Marshal(payload)
+			if err != nil {
+					return err
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.WriteHeader(code)
+			w.Write(response)
+			return nil
+	}
 
 snippet handleJSONRequest "handle JSON request"
-  func handler(w http.ResponseWriter, r *http.Request) {
-      defer r.Body.Close()
+	func handler(w http.ResponseWriter, r *http.Request) {
+			defer r.Body.Close()
 
-      dat, err := io.ReadAll(r.Body)
-      if err != nil {
-          respondWithError(w, 500, "couldn't read request")
-          return
-      }
-      params := requestBody{}
-      err = json.Unmarshal(dat, &params)
-      if err != nil {
-          respondWithError(w, 500, "couldn't unmarshal parameters")
-          return
-      }
-  }
+			dat, err := io.ReadAll(r.Body)
+			if err != nil {
+					respondWithError(w, 500, "couldn't read request")
+					return
+			}
+			params := requestBody{}
+			err = json.Unmarshal(dat, &params)
+			if err != nil {
+					respondWithError(w, 500, "couldn't unmarshal parameters")
+					return
+			}
+	}
 
 snippet timeDate "create a date"
-  ${0} := Date(${1:year}, ${2:month}, ${3:day}, 0, 0, 0, 0, time.UTC)
+	${0} := Date(${1:year}, ${2:month}, ${3:day}, 0, 0, 0, 0, time.UTC)
 
 snippet timeParseRFC1123 "parse time as RFC1123"
-  ${0}, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", ${1})
+	${0}, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", ${1})
 
 snippet timeParseRFC3339 "parse time as RFC3339"
-  ${0}, err := time.Parse("2006-01-02T15:04:05Z07:00", ${1})
+	${0}, err := time.Parse("2006-01-02T15:04:05Z07:00", ${1})
 
 snippet timeFormatRFC1123 "format time as RFC1123"
-  ${0} := ${1:time}.Format("Mon, 02 Jan 2006 15:04:05 MST")
+	${0} := ${1:time}.Format("Mon, 02 Jan 2006 15:04:05 MST")
 
 snippet timeFormatRFC3339 "format time as RFC3339"
-  ${0} := ${1:time}.Format("2006-01-02T15:04:05Z07:00")
+	${0} := ${1:time}.Format("2006-01-02T15:04:05Z07:00")
 
 snippet timeZone "convert time between different timezones"
-    loc, _ := time.LoadLocation("UTC")
-    loc, _ = time.LoadLocation("Europe/Berlin")
-    loc, _ = time.LoadLocation("America/New_York")
-    ${0} := ${1:time}.In(loc))
-
+		loc, _ := time.LoadLocation("UTC")
+		loc, _ = time.LoadLocation("Europe/Berlin")
+		loc, _ = time.LoadLocation("America/New_York")
+		${0} := ${1:time}.In(loc))
