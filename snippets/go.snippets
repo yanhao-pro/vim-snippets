@@ -404,22 +404,28 @@ snippet handleJSONRequest "handle JSON request"
 	}
 
 snippet timeDate "create a date"
-	${0} := Date(${1:year}, ${2:month}, ${3:day}, 0, 0, 0, 0, time.UTC)
+	${1:date} := time.Date(${2:year}, ${3:month}, ${4:day}, 0, 0, 0, 0, time.UTC)
+	${0}
 
 snippet timeParseRFC1123 "parse time as RFC1123"
-	${0}, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", ${1})
+	${1:t}, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", ${1})
+	${0}
 
 snippet timeParseRFC3339 "parse time as RFC3339"
-	${0}, err := time.Parse("2006-01-02T15:04:05Z07:00", ${1})
+	${1:t}, err := time.Parse("2006-01-02T15:04:05Z07:00", ${1})
+	${0}
 
 snippet timeFormatRFC1123 "format time as RFC1123"
-	${0} := ${1:time}.Format("Mon, 02 Jan 2006 15:04:05 MST")
+	${1:str} := ${2:time}.Format("Mon, 02 Jan 2006 15:04:05 MST")
+	${0}
 
 snippet timeFormatRFC3339 "format time as RFC3339"
-	${0} := ${1:time}.Format("2006-01-02T15:04:05Z07:00")
+	${1:str} := ${2:time}.Format("2006-01-02T15:04:05Z07:00")
+	${0}
 
 snippet timeZone "convert time between different timezones"
-		loc, _ := time.LoadLocation("UTC")
-		loc, _ = time.LoadLocation("Europe/Berlin")
-		loc, _ = time.LoadLocation("America/New_York")
-		${0} := ${1:time}.In(loc))
+	loc, _ := time.LoadLocation("UTC")
+	loc, _ = time.LoadLocation("Europe/Berlin")
+	loc, _ = time.LoadLocation("America/New_York")
+	${1:t} := ${2:time}.In(loc))
+	${0}
