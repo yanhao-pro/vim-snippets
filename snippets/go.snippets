@@ -408,11 +408,11 @@ snippet timeDate "create a date"
 	${0}
 
 snippet timeParseRFC1123 "parse time as RFC1123"
-	${1:t}, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", ${1})
+	${1:t}, err := time.Parse("Mon, 02 Jan 2006 15:04:05 MST", ${2:str})
 	${0}
 
 snippet timeParseRFC3339 "parse time as RFC3339"
-	${1:t}, err := time.Parse("2006-01-02T15:04:05Z07:00", ${1})
+	${1:t}, err := time.Parse("2006-01-02T15:04:05Z07:00", ${2:str})
 	${0}
 
 snippet timeFormatRFC1123 "format time as RFC1123"
