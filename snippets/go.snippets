@@ -429,3 +429,17 @@ snippet timeZone "convert time between different timezones"
 	loc, _ = time.LoadLocation("America/New_York")
 	${1:t} := ${2:time}.In(loc))
 	${0}
+
+snippet testTable "basic table driven tests"
+	tests := map[string]struct {
+		input string
+		want  []string
+	}{
+		"simple": {input: "", want: []string{}},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			got := Split(tc.input, tc.sep)
+		})
+	}
