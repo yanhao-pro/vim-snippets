@@ -304,6 +304,21 @@ snippet httpDumpResponse "dump http response"
 
 	fmt.Printf("%q", dump)
 
+
+snippet httpTestSvr "http test server"
+	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.String() == "" {
+			w.WriteHeader(200)
+			return
+		}
+		if r.URL.String() == "" {
+			fmt.Fprintf(w, "{}")
+			return
+		}
+		w.WriteHeader(404)
+	}))
+	defer s.Close()
+
 snippet flags "basic flags"
 	var output string
 	var option converter.Option
