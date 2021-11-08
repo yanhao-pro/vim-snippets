@@ -351,6 +351,12 @@ snippet testify "import testify"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
+snippet httpServer "basic http server"
+	http.HandleFunc("/hello", func (w http.ResponseWriter, req *http.Request) {
+		fmt.Fprintf(w, "hello\n")
+	})
+	http.ListenAndServe(":8090", nil)
+
 snippet httpClient "basic http client"
 	var httpClient = &http.Client{
 		Timeout: time.Second * 10,
