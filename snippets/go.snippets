@@ -289,21 +289,26 @@ snippet jsonLoad "json load from file"
 	}()
 
 snippet httpDumpRequest "dump http request"
-	dump, err := httputil.DumpRequestOut(req, true)
-	if err != nil {
-		log.Fatal(err)
-	}
+	func(req *http.Request) {
+		// DEBUG: remove before commit
+		dump, err := httputil.DumpRequestOut(req, true)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	fmt.Printf("%q", dump)
+		fmt.Printf("%s", dump)
+	}(${1})
 
 snippet httpDumpResponse "dump http response"
-	dump, err = httputil.DumpResponse(res, true)
-	if err != nil {
-		log.Fatal(err)
-	}
+	func(res *http.Response) {
+		// DEBUG: remove before commit
+		dump, err := httputil.DumpResponse(res, true)
+		if err != nil {
+			log.Fatal(err)
+		}
 
-	fmt.Printf("%q", dump)
-
+		fmt.Printf("%s", dump)
+	}(${1})
 
 snippet httpTestSvr "http test server"
 	s := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
