@@ -352,11 +352,11 @@ snippet testify "import testify"
 	"github.com/stretchr/testify/require"
 
 snippet httpClient "basic http client"
-	var netClient = &http.Client{
+	var httpClient = &http.Client{
 		Timeout: time.Second * 10,
 	}
 
-	response, _ := netClient.Get(url)
+	response, _ := httpClient.Get(url)
 
 snippet httpClientTrans "basic http client"
 	var netTransport = &http.Transport{
@@ -366,12 +366,12 @@ snippet httpClientTrans "basic http client"
 		TLSHandshakeTimeout: 5 * time.Second,
 	}
 
-	var netClient = &http.Client{
+	var httpClient = &http.Client{
 		Timeout: time.Second * 10,
 		Transport: netTransport,
 	}
 
-	response, _ := netClient.Get(url)
+	response, _ := httpClient.Get(url)
 
 snippet testSkip "skip the test"
 	fooAddr := os.Getenv("FOO_ADDR")
@@ -458,3 +458,19 @@ snippet testTable "basic table driven tests"
 			got := Split(tc.input, tc.sep)
 		})
 	}
+
+snippet signals "handle signals"
+	sigs := make(chan os.Signal, 1)
+	done := make(chan bool, 1)
+
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
+	go func() {
+		sig := <-sigs
+		fmt.Println(sig)
+		done <- true
+	}()
+
+	fmt.Println("awaiting signal")
+	<-done
+	fmt.Println("exiting")
