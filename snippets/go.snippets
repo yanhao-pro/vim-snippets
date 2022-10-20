@@ -288,7 +288,8 @@ snippet dp "print debug info"
 	func (){
 		// DEBUG: remove before commit
 		_, file, line, _ := runtime.Caller(0)
-		fmt.Println(file, line, ${1})
+		header := fmt.Sprintf(">>>>>> [%s:%d]", file, line)
+		fmt.Println(header, ${1})
 	}()
 
 snippet jp "json Marshal and print"
