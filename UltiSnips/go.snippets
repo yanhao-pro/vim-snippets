@@ -65,6 +65,7 @@ func main() {
 endsnippet
 
 snippet /^meth/ "Method" r
+// $3 ...
 func (${1:receiver} ${2:type}) ${3:name}(${4:params})${5/(.+)/ /}${5:type} {
 	${0:${VISUAL}}
 }
