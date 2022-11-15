@@ -297,7 +297,7 @@ snippet jp "json Marshal and print"
 		// DEBUG: remove before commit
 		_, file, line, _ := runtime.Caller(0)
 		jb, _ := json.MarshalIndent(${1}, "", "  ")
-		fmt.Printf("\n[%s:%s - %s]\n%s\n\n", file, line, name, string(jb))
+		fmt.Printf("\n[%s:%d - %s]\n%s\n\n", file, line, name, string(jb))
 		_ = ioutil.WriteFile(name + ".json", jb, 0644)
 	}("${2}")
 
