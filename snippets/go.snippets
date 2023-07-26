@@ -568,3 +568,27 @@ snippet fileExists "check if a file exists"
 	} else {
 		// other errors
 	}
+
+snippet errst "new error struct"
+	type ${1}Error struct {
+		${2}
+	}
+
+	func (e *Error) Error() string {
+		return ""
+	}
+
+snippet errvar "new error variable"
+	var Err${1} = errors.New("${2}")
+
+snippet erras "check errors.As"
+	var e *${1}Error
+	if errors.As(err, &e) {
+		${2}
+	}
+
+snippet erris "check errors.Is"
+	if errors.Is(err, Err${1}) {
+		// err, or some error that it wraps, is a permission problem
+		${2}
+	}
